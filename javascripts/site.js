@@ -122,11 +122,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const linkText = link.textContent.trim();
             const linkLabel = link.getAttribute('data-analytics-label') || linkText;
+            const localeMarket = {
+                'zh-TW': 'taiwan',
+                'ja': 'japan',
+                'en': 'united_states'
+            };
+            const linkPosition = link.closest('.nav')
+                ? 'navigation'
+                : link.closest('.hero, .market-hero')
+                    ? 'hero'
+                    : link.closest('footer, .footer')
+                        ? 'footer'
+                        : 'content';
 
             gtag('event', 'app_store_click', {
                 link_url: link.href,
                 link_text: linkText,
                 link_label: linkLabel,
+                link_position: linkPosition,
+                page_locale: pageLocale,
+                target_market: localeMarket[pageLocale] || 'unknown',
                 page_path: window.location.pathname
             });
         });
